@@ -17,35 +17,25 @@ public class GreetingController {
     @Autowired
     private MessageRepo messageRepo;
 
-    @GetMapping("/greeting")
+    @GetMapping("/")
  //   public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-    public String greeting(
-            @RequestParam(name="name", required=false, defaultValue="World") String name,
-            Map<String, Object> model) {
-//        model.addAttribute("name", name);
-        model.put("name", name);
+    public String greeting( Map<String, Object> model) {
+
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Map<String, Object> model){
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("/main")
     public String add(@RequestParam (name="myText") String myText,
-//                      @RequestParam (defaultValue="mySimpleTag") String tag,
-//                      @RequestParam (name="surname", defaultValue="Cirtakis") String surname,
-//                      @RequestParam (name="age", defaultValue="999") int age,
-//                      @RequestParam (defaultValue="999") String phone,
                       @RequestParam (defaultValue="No comment") String comment,
                       Map<String, Object> model){
         System.out.println("GreetingController... method add()...");
-//        System.out.println("text = " + myText + "    tag = " + tag);
-//        System.out.println("surname = " + surname + "    age = " + age);
-//        System.out.println("phone = " + phone + "    comment = " + comment);
         Message message = new Message(myText, comment);
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
